@@ -1,0 +1,21 @@
+{"categories": [{
+    "mp4": "http://192.168.1.107:8080/mp4/",
+    "images": "http://192.168.1.107:8080/images/",
+    "name": "Movies",
+    "videos": [{
+        "studio": "odcinek 1",
+        "duration": 321,
+        "image-780x1200": "bbb.jpg",
+        "sources": [{
+            "mime": "videos/mp4",
+            "type": "mp4",
+            "url": "01chainsaw.mp4"
+        }],
+        "image-480x270": "ccc.jpg",
+        "thumb": "ccc.jpg",
+        "subtitle": "cos tam",
+        "title": "Chainsawman"
+    }],
+    "dash": "",
+    "hls": ""
+}]}
