@@ -19,11 +19,16 @@ public class JsonFileGenerator {
     public static ArrayList<String> listOfNames;
 
     public static void main(String[] args) {
+        ThumbnailGenerator.generateThumbnails();
         listOfNames = new ArrayList<>(getFileList());
         createJsonFileFromString(generateJsonString());
     }
 
     public static LinkedList<String> getFileList() {
+        //TODO: przerobić jednak na lokalna
+        // to potem wykorzystam:
+        // https://stackoverflow.com/questions/25341219/get-files-name-in-directory
+
         LinkedList<String> fileNamesList = new LinkedList<>();
         try {
             URL url = new URL(MOVIES_DIRECTORY);
@@ -73,8 +78,8 @@ public class JsonFileGenerator {
             jsonSourcesArray.put(jsonSourcesString);
 
             jsonVideosString.put("sources", jsonSourcesArray);
-            jsonVideosString.put("thumb", "ccc.jpg");
-            jsonVideosString.put("image-480x270", "ccc.jpg");
+            jsonVideosString.put("thumb", name.replace(".mp4", "") +"480x270.png");
+            jsonVideosString.put("image-480x270", name.replace(".mp4", "") +"480x270.png");
             jsonVideosString.put("image-780x1200", "bbb.jpg");
             jsonVideosString.put("title", name);
             jsonVideosString.put("studio", "Chainsawman");
