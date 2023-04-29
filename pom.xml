@@ -30,7 +30,6 @@
             <artifactId>jsoup</artifactId>
             <version>1.15.3</version>
         </dependency>
-
         <dependency>
             <groupId>org.jcodec</groupId>
             <artifactId>jcodec</artifactId>
@@ -45,6 +44,18 @@
             <groupId>org.imgscalr</groupId>
             <artifactId>imgscalr-lib</artifactId>
             <version>4.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.theokanning.openai-gpt3-java</groupId>
+            <artifactId>service</artifactId>
+            <version>0.12.0</version>
         </dependency>
     </dependencies>
 
