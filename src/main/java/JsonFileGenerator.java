@@ -1,3 +1,4 @@
+import converters.FileNamesConverter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -16,15 +17,19 @@ public class JsonFileGenerator {
     public static final String DASH_DIRECTORY = "";
     public static final String MOVIES_DIRECTORY = "http://192.168.1.107:8080/mp4/";
     public static final String IMAGES_DIRECTORY = "http://192.168.1.107:8080/images/";
-    public static ArrayList<String> listOfNames;
+    public static ArrayList<String> listOfFileNames;
+    private static ChatGPTDescribeGenerator chatGPTDescribeGenerator;
 
-    public static void main(String[] args) {
-        ThumbnailGenerator.generateThumbnails();
-        listOfNames = new ArrayList<>(getFileList());
+    public JsonFileGenerator(ChatGPTDescribeGenerator chatGPTDescribeGenerator) {
+        this.chatGPTDescribeGenerator = chatGPTDescribeGenerator;
+    }
+
+    public void createJsonFile(){
+        setFileList();
         createJsonFileFromString(generateJsonString());
     }
 
-    public static LinkedList<String> getFileList() {
+    public static void setFileList() {
         //TODO: przerobić jednak na lokalna
         // to potem wykorzystam:
         // https://stackoverflow.com/questions/25341219/get-files-name-in-directory
@@ -53,10 +58,22 @@ public class JsonFileGenerator {
         } catch (IOException e) {
             System.out.println(e);
         }
-        return fileNamesList;
+
+        listOfFileNames = new ArrayList<>(fileNamesList);
     }
 
-    public static String generateJsonString() {
+    public static ArrayList<String[]> getStringSplitedArrayListofNames(){
+        ArrayList<String[]> splittedNamesList = new ArrayList<>();
+
+        for (String movieFileName: listOfFileNames)
+            splittedNamesList.add(movieFileName.split("."));
+
+        return splittedNamesList;
+    }
+
+
+    public String generateJsonString() {
+
         JSONObject jsonString = new JSONObject();
         jsonString.put("name", "Movies");
         jsonString.put("hls", HLS_DIRECTORY);
@@ -67,9 +84,18 @@ public class JsonFileGenerator {
         JSONObject jsonSourcesString;
         JSONArray jsonVideosArray = new JSONArray();
 
-        for (String name:listOfNames) {
+        int season;
+        int episode;
+        String describe;
+
+        for (String name: listOfFileNames) {
+            FileNamesConverter converter = FileNamesConverterFactory.getFileNameConverter(name);
+            season = Integer.parseInt(converter.getEpisode().substring(1,3));
+            episode = Integer.parseInt(converter.getEpisode().substring(4,6));
+            describe = chatGPTDescribeGenerator.getDescription(season,episode,converter.getName());
+
             JSONObject jsonVideosString = new JSONObject();
-            jsonVideosString.put("subtitle", "cos tam");
+            jsonVideosString.put("subtitle", describe);
             JSONArray jsonSourcesArray = new JSONArray();
             jsonSourcesString = new JSONObject();
             jsonSourcesString.put("type", "mp4");
@@ -80,9 +106,9 @@ public class JsonFileGenerator {
             jsonVideosString.put("sources", jsonSourcesArray);
             jsonVideosString.put("thumb", name.replace(".mp4", "") +"480x270.png");
             jsonVideosString.put("image-480x270", name.replace(".mp4", "") +"480x270.png");
-            jsonVideosString.put("image-780x1200", "bbb.jpg");
-            jsonVideosString.put("title", name);
-            jsonVideosString.put("studio", "Chainsawman");
+            jsonVideosString.put("image-780x1200", "bbb.png");
+            jsonVideosString.put("title", converter.getName());
+            jsonVideosString.put("studio", converter.getEpisode());
             jsonVideosString.put("duration", 100);
             jsonVideosArray.put(jsonVideosString);
         }
@@ -94,13 +120,12 @@ public class JsonFileGenerator {
 
         JSONObject object = new JSONObject();
         object.put("categories", jsonCategoriesArray);
-        String formattedJsonString = object.toString(4);
 
-        return formattedJsonString;
+        return object.toString(4);
     }
 
 
-    public static void createJsonFileFromString(String formattedJsonString) {
+    public void createJsonFileFromString(String formattedJsonString) {
         try {
             FileWriter myWriter = new FileWriter(JSON_DB_FILE);
             myWriter.write(formattedJsonString);
