@@ -21,7 +21,7 @@ public class JsonFileGenerator {
     private static ChatGPTDescribeGenerator chatGPTDescribeGenerator;
 
     public JsonFileGenerator(ChatGPTDescribeGenerator chatGPTDescribeGenerator) {
-        this.chatGPTDescribeGenerator = chatGPTDescribeGenerator;
+        JsonFileGenerator.chatGPTDescribeGenerator = chatGPTDescribeGenerator;
     }
 
     public void createJsonFile(){
@@ -60,15 +60,6 @@ public class JsonFileGenerator {
         }
 
         listOfFileNames = new ArrayList<>(fileNamesList);
-    }
-
-    public static ArrayList<String[]> getStringSplitedArrayListofNames(){
-        ArrayList<String[]> splittedNamesList = new ArrayList<>();
-
-        for (String movieFileName: listOfFileNames)
-            splittedNamesList.add(movieFileName.split("."));
-
-        return splittedNamesList;
     }
 
 

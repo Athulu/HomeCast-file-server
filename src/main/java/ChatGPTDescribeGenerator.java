@@ -9,17 +9,18 @@ import java.util.List;
 
 public class ChatGPTDescribeGenerator {
     OpenAiService service;
+
     public ChatGPTDescribeGenerator() {
         service = new OpenAiService("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", Duration.ofSeconds(30));
     }
 
-//    public static void main(String[] args) {
+    //    public static void main(String[] args) {
 //        ChatGPTDescribeGenerator aaa = new ChatGPTDescribeGenerator();
 //        String bbb = aaa.getDescription(1,1, "Chainsawman");
 //        System.out.println(bbb);
 //
 //    }
-    public String getDescription(int season, int episode, String series){
+    public String getDescription(int season, int episode, String series) {
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
                 .messages(List.of(new ChatMessage("user", "Krótki opis odcinka numer " + episode + " z sezonu numer " + season + " \"" + series + "\" nie zdradzający fabuły")))
                 .model("gpt-3.5-turbo")
