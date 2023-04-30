@@ -1,6 +1,6 @@
 package converters;
 
-public class MovieConverter extends FileNamesConverter{
+public class MovieConverter extends FileNamesConverter {
     public MovieConverter(String name) {
         this.fileName = name;
         this.splittedFileName = name.split("\\.");

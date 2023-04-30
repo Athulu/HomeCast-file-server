@@ -11,8 +11,3 @@ public class FileNamesConverterFactory {
         else return new DefaultConverter(name);
     }
 }
-
-//        switch (countOfDotes) {
-//            case 2 -> return new DefaultConverter();
-//            default -> return new DefaultConverter();
-//        };
