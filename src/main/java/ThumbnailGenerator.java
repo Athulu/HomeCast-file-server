@@ -13,13 +13,14 @@ import org.jcodec.common.model.Picture;
 import org.jcodec.scale.AWTUtil;
 
 public class ThumbnailGenerator {
+    public static final String MAIN_DIRECTORY = "C:\\HomeCast\\";
     public static void generateThumbnails() {
         int frameNumber = 100;
         DirectoryStream.Filter<Path> filter = file -> {
             return file.toString().endsWith(".mp4") || file.toString().endsWith(".MP4")
                     || file.toString().endsWith(".mov") || file.toString().endsWith(".MOV");
         };
-        Path dirName = Paths.get("D:\\chainsawman\\mp4");
+        Path dirName = Paths.get(MAIN_DIRECTORY + "mp4");
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirName, filter)) {
             stream.forEach(path -> {
                 try {
@@ -28,7 +29,7 @@ public class ThumbnailGenerator {
                     BufferedImage bufferedImage = AWTUtil.toBufferedImage(picture);
                     bufferedImage = Scalr.resize(bufferedImage, 480);
                     ImageIO.write(bufferedImage, "png", new File(
-                            "D:\\chainsawman\\images\\" + path.getFileName().toString().replace(".mp4", "") + "480x270.png"));
+                            MAIN_DIRECTORY + "images\\" + path.getFileName().toString().replace(".mp4", "") + "480x270.png"));
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
