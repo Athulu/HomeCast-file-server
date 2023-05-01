@@ -4,6 +4,6 @@ public class Main {
         ChatGPTDescribeGenerator chatGPT = new ChatGPTDescribeGenerator();
         JsonFileGenerator jsonFileGenerator = new JsonFileGenerator(chatGPT);
         jsonFileGenerator.createJsonFile();
-//        ThumbnailGenerator.generateThumbnails();
+        ThumbnailGenerator.generateThumbnails();
     }
 }

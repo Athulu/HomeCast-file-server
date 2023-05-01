@@ -11,7 +11,7 @@ public class ChatGPTDescribeGenerator {
     OpenAiService service;
 
     public ChatGPTDescribeGenerator() {
-        service = new OpenAiService("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", Duration.ofSeconds(30));
+        service = new OpenAiService("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", Duration.ofSeconds(30));
     }
 
     //    public static void main(String[] args) {

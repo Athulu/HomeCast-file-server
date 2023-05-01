@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class JsonFileGenerator {
-    public static final String JSON_DB_FILE = "D:\\chainsawman\\db.json";
+    public static final String JSON_DB_FILE = "C:\\HomeCast\\db.json";
     public static final String HLS_DIRECTORY = "";
     public static final String DASH_DIRECTORY = "";
     public static final String MOVIES_DIRECTORY = "http://192.168.1.107:8080/mp4/";
