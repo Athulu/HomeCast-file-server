@@ -2,7 +2,6 @@ import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.service.OpenAiService;
-
 import java.time.Duration;
 import java.util.List;
 
@@ -11,10 +10,10 @@ public class ChatGPTDescribeGenerator {
     OpenAiService service;
 
     public ChatGPTDescribeGenerator() {
-        service = new OpenAiService("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", Duration.ofSeconds(30));
+        service = new OpenAiService("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", Duration.ofSeconds(30));
     }
 
-    //    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        ChatGPTDescribeGenerator aaa = new ChatGPTDescribeGenerator();
 //        String bbb = aaa.getDescription(1,1, "Chainsawman");
 //        System.out.println(bbb);

@@ -1,15 +1,14 @@
 import converters.FileNamesConverter;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Safelist;
-
 import java.io.*;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 
 public class JsonFileGenerator {
     public static final String JSON_DB_FILE = "C:\\HomeCast\\db.json";
@@ -17,7 +16,6 @@ public class JsonFileGenerator {
     public static final String DASH_DIRECTORY = "";
     public static final String MOVIES_DIRECTORY = "http://192.168.1.107:8080/mp4/";
     public static final String IMAGES_DIRECTORY = "http://192.168.1.107:8080/images/";
-    public static ArrayList<String> listOfFileNames;
     private static ChatGPTDescribeGenerator chatGPTDescribeGenerator;
 
     public JsonFileGenerator(ChatGPTDescribeGenerator chatGPTDescribeGenerator) {
@@ -25,43 +23,19 @@ public class JsonFileGenerator {
     }
 
     public void createJsonFile(){
-        setFileList();
         createJsonFileFromString(generateJsonString());
     }
 
-    public static void setFileList() {
-        //TODO: przerobić jednak na lokalna
-        // to potem wykorzystam:
-        // https://stackoverflow.com/questions/25341219/get-files-name-in-directory
-
-        LinkedList<String> fileNamesList = new LinkedList<>();
-        try {
-            URL url = new URL(MOVIES_DIRECTORY);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.contains(".mp4")) {
-                    int startIndex = line.indexOf("<a href");
-                    String result = "";
-                    if (startIndex != -1) {
-                        result = line.substring(startIndex);
-                    }
-
-                    String safe = Jsoup.clean(result, Safelist.simpleText());
-                    fileNamesList.add(safe);
-                }
+    public static List<String> getAllDirFiles() {
+        List<String> fileNames = new ArrayList<>();
+        try (DirectoryStream<Path> directoryStream
+                     = Files.newDirectoryStream(Paths.get("C:\\HomeCast\\mp4"))) {
+            for (Path path : directoryStream) {
+                fileNames.add(path.getFileName().toString());
             }
-            reader.close();
-            conn.disconnect();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
-        listOfFileNames = new ArrayList<>(fileNamesList);
+        } catch (IOException ex) {}
+        return fileNames;
     }
-
 
     public String generateJsonString() {
 
@@ -79,7 +53,7 @@ public class JsonFileGenerator {
         int episode;
         String describe;
 
-        for (String name: listOfFileNames) {
+        for (String name: getAllDirFiles()) {
             FileNamesConverter converter = FileNamesConverterFactory.getFileNameConverter(name);
             season = Integer.parseInt(converter.getEpisode().substring(1,3));
             episode = Integer.parseInt(converter.getEpisode().substring(4,6));
