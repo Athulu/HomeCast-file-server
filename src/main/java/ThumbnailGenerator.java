@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
-
 import org.imgscalr.Scalr;
 import org.jcodec.api.FrameGrab;
 import org.jcodec.common.model.Picture;
