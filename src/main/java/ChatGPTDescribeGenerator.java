@@ -10,7 +10,7 @@ public class ChatGPTDescribeGenerator {
     OpenAiService service;
 
     public ChatGPTDescribeGenerator() {
-        service = new OpenAiService("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", Duration.ofSeconds(30));
+        service = new OpenAiService("token", Duration.ofSeconds(30));
     }
 
 //    public static void main(String[] args) {
@@ -19,6 +19,7 @@ public class ChatGPTDescribeGenerator {
 //        System.out.println(bbb);
 //
 //    }
+
     public String getDescription(int season, int episode, String series) {
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
                 .messages(List.of(new ChatMessage("user", "Krótki opis odcinka numer " + episode + " z sezonu numer " + season + " \"" + series + "\" nie zdradzający fabuły")))
